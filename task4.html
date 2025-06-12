@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing</title>
+</head>
+<style>
+.heading{
+    font-size: 20px;
+    font-weight: 100;
+    color: black;
+    background: pink;
+    padding:10px;
+    margin-bottom:20px;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+}
+
+#products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.product {
+    border: 1px solid #ccc;
+    padding: 15px;
+    padding-top: 10px;
+    margin: 10px;
+    width: 200px;
+    border-radius:3px ;
+    box-shadow: 0 0 3px black;
+}
+.product img {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+</style>
+<body>
+    <div class="heading">
+ <h1>Livana</h1>
+ <p>Make Your Own Fashion❤️</p></div>
+    <header>
+        <label for="category">Filter by Category:</label>
+        <select id="category">
+            <option value="all">All</option>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+                   <option value="jewellery">jewellery</option>
+                   <option value="decor">Decor</option>
+
+
+        </select>
+
+        <label for="sort">Sort by:</label>
+        <select id="sort">
+            <option value="price">Price (Low to High)</option>
+            <option value="rating">Rating (High to Low)</option>
+        </select>
+    </header>
+
+    <main>
+        <br>
+        <div id="products"></div>
+    </main>
+
+    <script >
+        const products = [
+    { name: "Laptop", category: "electronics", price: 8000, rating: 4.5,image:"lappy.png"},
+    { name: "washing machine", category: "electronics", price: 4500, rating: 4.7,image:"wm.png"  },
+    { name: "Earrings", category: "jewellery", price: 100, rating: 4,image:"er.png" },
+    { name: "necklace", category: "jewellery", price: 1000, rating: 4.6,image:"neck.png" },
+    { name: "Tees", category: "clothing", price: 80, rating: 3.2,image:"tees.png" },
+    { name: "shirts", category: "clothing", price: 180, rating: 3.5,image:"shirt.png" },
+    { name: "frame", category: "decor", price: 70, rating: 3.9,image:"frame.png" },
+    { name: "watches", category: "jewellery", price: 800, rating: 4.9,image:"watch.png" },
+    { name: "maxi", category: "clothing", price: 100, rating: 4.2,image:"maxi.png" },
+    { name: "idol", category: "decor", price: 160, rating: 4.0,image:"idol.png" },
+    
+    
+];
+
+const productsContainer = document.getElementById("products");
+const categoryFilter = document.getElementById("category");
+const sortFilter = document.getElementById("sort");
+
+function displayProducts(filteredProducts) {
+    productsContainer.innerHTML = filteredProducts.map(product => `
+        <div class="product">
+            <img src="${product.image}" alt="${product.name}" width="150">
+            <h3>${product.name}</h3>
+            <p>Price: $${product.price}</p>
+            <p>Rating: ${product.rating}</p>
+        </div>
+    `).join("");
+}
+
+function filterAndSortProducts() {
+    let filteredProducts = products.filter(product =>
+        categoryFilter.value === "all" || product.category === categoryFilter.value
+    );
+
+    if (sortFilter.value === "price") {
+        filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
+    } else if (sortFilter.value === "rating") {
+        filteredProducts = filteredProducts.sort((a, b) => b.rating - a.rating);
+    }
+
+    displayProducts(filteredProducts);
+}
+
+// Ensure sorting is applied correctly by calling the function when filters change
+categoryFilter.addEventListener("change", filterAndSortProducts);
+sortFilter.addEventListener("change", filterAndSortProducts);
+
+// Initial display
+filterAndSortProducts();
+
+</script>
+</body>
+</html>
